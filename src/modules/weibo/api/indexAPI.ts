@@ -35,7 +35,7 @@ export const createIndexAPI = () => {
           from: 'weibo'
         }
       }).then(res => res.headers)
-      axiosInstance.defaults.headers.common['Cookie'] = resHeaders['set-cookie'].filter(cookie => cookie.startsWith('SUB=')).map(cookie => cookie.split(';')[0]).concat(['XSRF-TOKEN=111111']).join(';');
+      axiosInstance.defaults.headers.common['Cookie'] = resHeaders['set-cookie'].filter(cookie => cookie.startsWith('SUB')).map(cookie => cookie.split(';')[0]).join(';');
       logger.debug(`[getInfo] ${uid}`);
       await waitMs(Math.floor(Math.random() * 100));
       return await axiosInstance({
