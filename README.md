@@ -31,6 +31,22 @@ pm2 start process.json
 程序将启动一个 HTTP Server，默认监听 `3000` 端口  
 还需另外配置域名、HTTP 反向代理等
 
+## Docker 镜像
+
+`main` 分支和 `v*` 标签由 GitHub Actions 自动构建，镜像发布到 GitHub Container Registry：
+
+```bash
+docker pull ghcr.io/gucheen/weibo-rss:latest
+docker run -d \
+  --name weibo-rss \
+  --restart unless-stopped \
+  -p 3000:3000 \
+  -v weibo-rss-data:/app/data \
+  ghcr.io/gucheen/weibo-rss:latest
+```
+
+工作流硬性限定为只在 `gucheen/weibo-rss` 仓库内运行；其他仓库即使复制了该工作流，也会跳过构建任务。
+
 ## ToDo
 1. 更多的接口单元测试
 

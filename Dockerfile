@@ -1,8 +1,8 @@
-FROM node:18-alpine as builder
+FROM node:18-alpine AS builder
 RUN mkdir /app
 WORKDIR /app
 COPY . /app
-RUN npm i -g pnpm && pnpm i && pnpm build
+RUN npm install -g pnpm@10.34.5 && pnpm install --frozen-lockfile && pnpm build
 
 FROM node:18-alpine
 LABEL maintainer="https://github.com/zgq354/weibo-rss"
@@ -14,8 +14,8 @@ RUN wget -O /usr/local/bin/dumb-init https://github.com/Yelp/dumb-init/releases/
     echo "057ecd4ac1d3c3be31f82fc0848bf77b1326a975b4f8423fe31607205a0fe945  /usr/local/bin/dumb-init" | sha256sum -c - && \
     chmod 755 /usr/local/bin/dumb-init
 
-COPY package.json pnpm-lock.yaml /app/
-RUN npm install -g pnpm && pnpm install --prod
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml /app/
+RUN npm install -g pnpm@10.34.5 && pnpm install --prod --frozen-lockfile
 
 # app code
 COPY . /app
